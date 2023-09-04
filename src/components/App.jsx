@@ -17,6 +17,24 @@ class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const storedContacts = LocalStorage.load(this.LOCAL_STORAGE_KEY);
+    const storedContactsLength = storedContacts?.length;
+    if (storedContacts !== null && storedContactsLength > 0) {
+      this.setState({ contacts: storedContacts });
+    } else {
+      this.setState({ contacts: [] });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { contacts } = this.state;
+
+    if (contacts !== prevState.contacts) {
+      LocalStorage.save(this.LOCAL_STORAGE_KEY, contacts);
+    }
+  }
+
   addContact = newContact => {
     const isNameDuplicate = this.state.contacts.find(
       contact =>
@@ -50,24 +68,6 @@ class App extends Component {
       contact.name.toLocaleLowerCase().includes(normilizedFilter)
     );
   };
-
-  componentDidMount() {
-    const storedContacts = LocalStorage.load(this.LOCAL_STORAGE_KEY);
-    const storedContactsLength = storedContacts?.length;
-    if (storedContacts !== null && storedContactsLength > 0) {
-      this.setState({ contacts: storedContacts });
-    } else {
-      this.setState({ contacts: [] });
-    }
-  }
-
-  componentDidUpdate(_, prevState) {
-    const { contacts } = this.state;
-
-    if (contacts !== prevState.contacts) {
-      LocalStorage.save(this.LOCAL_STORAGE_KEY, contacts);
-    }
-  }
 
   render() {
     const { contacts, filter } = this.state;
