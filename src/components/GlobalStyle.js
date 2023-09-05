@@ -13,7 +13,7 @@ export const GlobalStyle = createGlobalStyle`
     to bottom,
     #111111,
     #333333
-  ); /* Градиентные цвета */
+  );
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
